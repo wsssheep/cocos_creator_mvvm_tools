@@ -124,7 +124,7 @@ export default class VMModify extends cc.Component {
     }
 
     vNumberInt(e,data:any){ 
-       this.vNumber(data,true);
+        this.vNumber(e,data,true);
     }
 
     vNumber(e,data:any,int:boolean = false){ 

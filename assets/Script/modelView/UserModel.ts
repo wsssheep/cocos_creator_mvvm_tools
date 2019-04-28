@@ -21,7 +21,35 @@ export class GlobalData {
         { name: 's2', age: 16, sex: 1 },
         { name: 's3', age: 12, sex: 2 },
     ]
+
+    //菜单状态（代表选择了哪个菜单
+    menu = {
+        state: 0
+    }
 }
+
+class PlayData {
+    name:string = '??? ';
+    level:number = 0;
+    exp:number = 0;//exp
+    exp_max:number = 0;//升级目标exp
+
+    hp:number = 50;
+    mhp:number = 1500;
+    mp:number =  700;
+    mmp:number = 1500;
+
+    atk:number = 5;
+    mat:number = 10;
+    def:number = 10;
+    mdf:number = 10;
+    spd:number = 100;
+    luk:number = 5;
+    cri:number = 0; //暴击率
+    skill_point:number = 15;//技能点
+
+}
+
 
 
 class EditorData {
@@ -43,12 +71,13 @@ class EditorData {
 //原始数据
 export let global: GlobalData = new GlobalData();
 export let ui: EditorData = new EditorData();
+export let player:PlayData = new PlayData();
 
 
 //数据模型绑定,定义后不能修改顺序
 VM.add(global, 'game');    //定义全局tag
 VM.add(ui, 'editor');           //定义全局tag
-
+VM.add(player,'player');
 
 //使用注意事项
 //VM 得到的回调 onValueChanged ，不能强制修改赋值

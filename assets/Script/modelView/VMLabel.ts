@@ -144,8 +144,10 @@ export default class VMLabel extends cc.Component {
         let regexAll = /\{\{(.+?)\}\}/g; //匹配： 所有的{{value}}
         let regex = /\{\{(.+?)\}\}/;//匹配： {{value}} 中的 value
         let res = this.originText.match(regexAll);//匹配结果数组 [{{value}}，{{value}}，{{value}}]
+        if(res == null)return;//未匹配到文本
         let str = this.originText;//原始字符串模板 "name:{{0}}"
         let isIndexMode = this.templateMode == TEMPLATE_MODE.INDEX_NUMBER;
+
         for (let i = 0; i < res.length; i++) {
             const e = res[i];
             let getValue;

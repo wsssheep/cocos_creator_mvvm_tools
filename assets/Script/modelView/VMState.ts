@@ -50,16 +50,34 @@ export default class VMState extends cc.Component {
     valueAction:ACTION =  ACTION.NODE_ACTIVE;
 
     @property({
+        visible:function(){return this.valueAction === ACTION.NODE_VISIBLE},
+        range:[0,255],
+        type:cc.Integer,
+        displayName:'Action Opacity'
+    })
+    valueActionOpacity:number = 0;
+
+    @property({
+        visible:function(){return this.valueAction === ACTION.NODE_COLOR},
+        displayName:'Action Color'
+    })
+    valueActionColor:cc.Color = cc.color(155,155,155);
+
+    @property({
         type:[cc.Node],
-        tooltip:'需要执行条件的节点，如果不填写则默认会执行本节点下的所有子节点'
+        tooltip:'需要执行条件的节点，如果不填写则默认会执行本节点以及本节点的所有子节点 的状态'
     })
     watchNodes:cc.Node[] = [];
+
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
         //如果数组里没有监听值，那么默认把所有子节点给监听了
         if(this.watchNodes.length == 0){
+            if(this.valueAction !== ACTION.NODE_ACTIVE){
+                this.watchNodes.push(this.node);
+            }
             this.watchNodes = this.watchNodes.concat(this.node.children);
         }
    
@@ -104,7 +122,8 @@ export default class VMState extends cc.Component {
             let a = ACTION;
             switch (n) {
                 case a.NODE_ACTIVE: node.active = check?true:false;  break; 
-                case a.NODE_VISIBLE: node.opacity = check?255:0;  break;
+                case a.NODE_VISIBLE: node.opacity = check?255:this.valueActionOpacity;  break;
+                case a.NODE_COLOR: node.color = check?cc.color(255,255,255):this.valueActionColor; break;
             
                 default:
                     break;

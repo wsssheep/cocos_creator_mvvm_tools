@@ -215,6 +215,21 @@ class VMManager {
         }
 
         /**
+         * 通过全局路径,而不是 VM 对象来 设置值
+         * @param path - 全局取值路径
+         * @param value - 需要增加的值
+         */
+        addValue(path: string, value: any) {
+            path =  path.trim();//防止空格,自动剔除
+            let rs = path.split('.');
+            if(rs.length<2){console.error('Cant find path:'+path)};
+            let vm = this.get(rs[0]);
+            if(!vm){console.error('Cant Set VM:'+rs[0]);return;};
+            let resPath = rs.slice(1).join('.');
+            vm.setValue(resPath,vm.getValue(resPath)+value);
+        }
+
+        /**
          * 通过全局路径,而不是 VM 对象来 获取值
          * @param path - 全局取值路径
          * @param def - 如果取不到值的返回的默认值

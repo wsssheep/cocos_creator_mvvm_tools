@@ -11,10 +11,10 @@
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class MvvmShopCtrl extends cc.Component {
 
-    @property(cc.Prefab)
-    prefab: cc.Prefab = null;
+    @property([cc.Prefab])
+    prefabs: cc.Prefab[] = [];
 
 
     // LIFE-CYCLE CALLBACKS:
@@ -25,8 +25,11 @@ export default class NewClass extends cc.Component {
 
     }
 
-    onCreateWindow(){
-        let node = cc.instantiate(this.prefab);
+    onCreateWindowId(e,data){
+        let index =  parseInt(data);
+        if(index === null)return;
+
+        let node = cc.instantiate(this.prefabs[index]);
         this.node.addChild(node);
     }
 

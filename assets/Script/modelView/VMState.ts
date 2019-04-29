@@ -74,6 +74,7 @@ export default class VMState extends VMBase {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        super.onLoad();
         //如果数组里没有监听值，那么默认把所有子节点给监听了
         if(this.watchNodes.length == 0){
             if(this.valueAction !== ACTION.NODE_ACTIVE){

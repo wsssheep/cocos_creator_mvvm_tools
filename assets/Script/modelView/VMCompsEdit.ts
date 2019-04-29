@@ -2,6 +2,11 @@
 
 const { ccclass, property, executeInEditMode, menu } = cc._decorator;
 
+enum ACTION_MODE {
+    SEARCH_COMPONENT,
+    REPLACE_WATCH_PATH,
+    DELETE_COMPONENT
+}
 
 
 /**

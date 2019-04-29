@@ -423,7 +423,9 @@
     "watchPath": "shop.item.name",
     "labelType": "cc.Label",
     "templateMode": false,
-    "templatePathArr": [],
+    "watchPathArr": [
+      ""
+    ],
     "_id": ""
   },
   {
@@ -539,7 +541,7 @@
     "watchPath": "",
     "labelType": "cc.Label",
     "templateMode": true,
-    "templatePathArr": [
+    "watchPathArr": [
       "shop.owns",
       "shop.item.max"
     ],
@@ -658,7 +660,9 @@
     "watchPath": "shop.buy",
     "labelType": "cc.Label",
     "templateMode": false,
-    "templatePathArr": [],
+    "watchPathArr": [
+      ""
+    ],
     "_id": ""
   },
   {
@@ -1918,9 +1922,8 @@
     "watchPath": "",
     "labelType": "cc.Label",
     "templateMode": true,
-    "templatePathArr": [
-      "shop.item.price",
-      "shop.item.max"
+    "watchPathArr": [
+      "shop.item.price"
     ],
     "_id": ""
   },
@@ -2877,6 +2880,7 @@
     },
     "_enabled": true,
     "watchPath": "shop.progress",
+    "debug": false,
     "controller": true,
     "componentName": "cc.Slider",
     "componentProperty": "progress",
@@ -2996,7 +3000,7 @@
     "watchPath": "",
     "labelType": "cc.Label",
     "templateMode": true,
-    "templatePathArr": [
+    "watchPathArr": [
       "shop.cost"
     ],
     "_id": ""
@@ -3114,7 +3118,7 @@
     "watchPath": "",
     "labelType": "cc.Label",
     "templateMode": true,
-    "templatePathArr": [
+    "watchPathArr": [
       "game.diamond"
     ],
     "_id": ""

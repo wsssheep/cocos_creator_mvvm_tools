@@ -13,6 +13,7 @@ const OAM = ['push', 'pop', 'shift', 'unshift', 'short', 'reverse', 'splice'];
 const VM_EMIT_HEAD = 'VC:';
 const DEBUG_SHOW_PATH = false;
 
+//通过 .  路径 设置值
 function setValueFromPath(obj:any,path: string, value: any, tag:string = '') {
     let props = path.split('.');
     for (let i = 0; i < props.length; i++) {
@@ -27,7 +28,7 @@ function setValueFromPath(obj:any,path: string, value: any, tag:string = '') {
 
 }
 
-//获取路径的值
+//通过 . 路径 获取值
 function getValueFromPath(obj:any,path: string,def?:any, tag:string = ''):any {
     let props = path.split('.');
     for (let i = 0; i < props.length; i++) {
@@ -332,68 +333,6 @@ class VMManager {
 
 //   整数、小数、时间、缩写
 
-/**
- * 数值格式化函数, 通过语义解析自动设置值的范围
- *     //整数
- * 1:def(0)//显示一个默认值
- */
-class FormatFunction {
-    /** [value:int] 将取值变成整数 */
-    int(value:number){
-        return Math.round(value);
-    }
 
-    /** [value:fix2]数值转换为小数*/
-    fix(value:number,fd:number){
-        return value.toFixed(fd)
-    }
-
-    /** [value:limit3]字符串长度限制 */
-    limit(value:string,count:number){
-        return value.substring(0,count);
-    }
-
-    /** 将数字缩短显示为KMBT单位 大写,目前只支持英文 */
-    KMBT(value:number,lang:string = 'en'){
-        //10^4=万, 10^8=亿,10^12=兆,10^16=京，
-        let counts = [1000,1000000,1000000000,1000000000000];
-        let units = ['K','M','B','T'];
-
-        switch (lang) {
-            case 'zh':
-                //10^4=万, 10^8=亿,10^12=兆,10^16=京，
-                let counts = [10000,100000000,1000000000000,10000000000000000];
-                let units = ['万','亿','兆','京'];
-                break;
-        
-            default:
-                break;
-        }
-
-        return this.compressUnit(value,counts,units,2);
-    }
-
-
-    //压缩任意单位的数字，后缀加上单位文字
-    compressUnit(value,valueArr:number[],unitArr:string[],fixNum:number =2):string{
-        let counts = valueArr;
-        let units = unitArr;
-        let res:string;
-        let index;
-        for (index = 0; index < counts.length; index++) {
-            const e = counts[index];
-            if(value < e){
-                res = (value/e).toFixed(fixNum);
-                break;
-            }
-            
-        }
-
-        return res + units[index];
-    }
-
- 
-
-}
 
 export let VM = new VMManager();

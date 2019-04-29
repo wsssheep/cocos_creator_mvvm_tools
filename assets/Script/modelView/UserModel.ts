@@ -35,9 +35,9 @@ class PlayData {
     exp_max:number = 0;//升级目标exp
 
     hp:number = 50;
-    mhp:number = 1500;
+    mhp:number = 15000;
     mp:number =  700;
-    mmp:number = 1500;
+    mmp:number = 15000;
 
     atk:number = 5;
     mat:number = 10;
@@ -46,11 +46,13 @@ class PlayData {
     spd:number = 100;
     luk:number = 5;
     cri:number = 0; //暴击率
-    skill_point:number = 15;//技能点
-    equips = [3,3,2,0,0,1,-1] //对应8个装备孔的id编号（会自动索引到需要的数据库）
-    package = []; //道具背包（所有道具保存在这里
 
+    skill_point:number = 15;//技能点
+    prop_point:number = 10; //属性点
+
+    equips = [3,3,2,0,0,1,-1] //对应8个装备孔的id编号（会自动索引到需要的数据库）
 }
+
 
 
 

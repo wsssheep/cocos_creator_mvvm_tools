@@ -1,4 +1,5 @@
 import VMBase from './VMBase';
+import { StringFormatFunction } from './StringFormat';
 
 const {ccclass, property,menu,executeInEditMode} = cc._decorator;
 
@@ -40,13 +41,12 @@ export default class VMLabel extends VMBase {
     private templateMode:boolean = false;
 
 
-
     //按照匹配参数顺序保存的 path 数组 （固定）
     @property({
         type:[cc.String],
         visible:function(){return this.templateMode === true}
     })
-    private templatePathArr:string[] = [];
+    protected watchPathArr:string[] = [];
 
     //按照路径参数顺序保存的 值的数组（固定）
     private templateValueArr:any[] = [];
@@ -63,6 +63,7 @@ export default class VMLabel extends VMBase {
     }
 
     onLoad () {
+        super.onLoad();
         this.checkLabel();
         if(!CC_EDITOR){
             if(this.templateMode){
@@ -114,7 +115,7 @@ export default class VMLabel extends VMBase {
     //多路径监听方式
     setMultPathEvent(enabled:boolean = true){
         if(CC_EDITOR)return;
-        let arr = this.templatePathArr;
+        let arr = this.watchPathArr;
         for (let i = 0; i < arr.length; i++) {
             const path = arr[i];
             if(enabled){
@@ -141,18 +142,13 @@ export default class VMLabel extends VMBase {
             let indexNum = parseInt(arr[1]||'0')||0; //取出数组的 value 元素 转换成整数
             let format = this.templateFormatArr[i]; //格式化字符 的 配置参数
             getValue = this.templateValueArr[indexNum];
-            str =  str.replace(e,this.getValueFromFormat(getValue));//从路径缓存值获取数据
-            console.log('支持格式',);
+            str =  str.replace(e,this.getValueFromFormat(getValue,format));//从路径缓存值获取数据
         }
         return str;
     }
 
-    getValueFromFormat(value:number|string):string{
-        if(typeof value == 'number'){
-            return ''+value;
-        }else{
-            return ''+value;
-        }
+    getValueFromFormat(value:number|string,format:string):string{
+       return StringFormatFunction.deal(value,format);
     }
 
     onValueInit(){
@@ -160,9 +156,9 @@ export default class VMLabel extends VMBase {
         if(this.templateMode === false){
             this.setLabelValue(this.VM.getValue(this.watchPath)); //
         }else{
-            let max = this.templatePathArr.length;
+            let max = this.watchPathArr.length;
             for (let i = 0; i < max; i++) {
-                this.templateValueArr[i] = this.VM.getValue(this.templatePathArr[i],'?');
+                this.templateValueArr[i] = this.VM.getValue(this.watchPathArr[i],'?');
             }
             this.setLabelValue(this.getReplaceText()); // 重新解析
         }
@@ -176,7 +172,7 @@ export default class VMLabel extends VMBase {
         }else{
             let path = pathArr.join('.');
             //寻找缓存位置
-            let index =  this.templatePathArr.findIndex(v=>{
+            let index =  this.watchPathArr.findIndex(v=>{
                 return v === path;
             });
 

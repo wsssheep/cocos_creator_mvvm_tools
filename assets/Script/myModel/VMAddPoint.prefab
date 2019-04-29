@@ -1075,7 +1075,7 @@
     "watchPath": "",
     "labelType": "cc.Label",
     "templateMode": true,
-    "templatePathArr": [
+    "watchPathArr": [
       "add_point.data.atk",
       "add_point.add.atk"
     ],
@@ -1904,7 +1904,7 @@
     "watchPath": "",
     "labelType": "cc.Label",
     "templateMode": true,
-    "templatePathArr": [
+    "watchPathArr": [
       "add_point.data.mat",
       "add_point.add.mat"
     ],
@@ -2733,7 +2733,7 @@
     "watchPath": "",
     "labelType": "cc.Label",
     "templateMode": true,
-    "templatePathArr": [
+    "watchPathArr": [
       "add_point.data.def",
       "add_point.add.def"
     ],
@@ -3562,7 +3562,7 @@
     "watchPath": "",
     "labelType": "cc.Label",
     "templateMode": true,
-    "templatePathArr": [
+    "watchPathArr": [
       "add_point.data.mdf",
       "add_point.add.mdf"
     ],
@@ -4391,7 +4391,7 @@
     "watchPath": "",
     "labelType": "cc.Label",
     "templateMode": true,
-    "templatePathArr": [
+    "watchPathArr": [
       "add_point.data.spd",
       "add_point.add.spd"
     ],
@@ -5220,7 +5220,7 @@
     "watchPath": "",
     "labelType": "cc.Label",
     "templateMode": true,
-    "templatePathArr": [
+    "watchPathArr": [
       "add_point.data.luk",
       "add_point.add.luk"
     ],
@@ -6049,7 +6049,7 @@
     "watchPath": "",
     "labelType": "cc.Label",
     "templateMode": true,
-    "templatePathArr": [
+    "watchPathArr": [
       "add_point.data.cri",
       "add_point.add.cri"
     ],
@@ -6262,7 +6262,7 @@
     "watchPath": "",
     "labelType": "cc.Label",
     "templateMode": true,
-    "templatePathArr": [
+    "watchPathArr": [
       "add_point.use",
       "add_point.point"
     ],

@@ -69,6 +69,7 @@ export default class VMCustom extends VMBase {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        super.onLoad();
         this.checkEditorComponent();//编辑器检查
         //只在运行时检查组件是否缺失可用
         if(!CC_EDITOR){

@@ -52,7 +52,7 @@ export default class VMAddPoint extends cc.Component {
         add_point.use = 0;
 
         //可以使用的 point
-        add_point.point = this.player.skill_point;//获取技能点
+        add_point.point = this.player.prop_point;//获取技能点
 
         //加点值
         add_point.add = {
@@ -96,7 +96,7 @@ export default class VMAddPoint extends cc.Component {
         this.player.luk +=add_point.add.luk;
         this.player.cri +=add_point.add.cri;
 
-        this.player.skill_point -= add_point.use;
+        this.player.prop_point -= add_point.use;
 
         this.node.destroy();
 

@@ -1,4 +1,5 @@
 import { VM } from './JsonOb';
+import VMBase from './VMBase';
 
 const {ccclass, property,menu} = cc._decorator;
 
@@ -13,10 +14,10 @@ enum CONDITION{
 }
 
 enum ACTION {
-    NODE_ACTIVE, //节点的激活状态 （会影响到容器计算）
-    NODE_VISIBLE, //节点的显示和隐藏（只是不透明度）
-    NODE_FADE,  //节点的显示和隐藏,包含渐隐的过渡动画
-    NODE_COLOR, //更改节点的颜色（满足状态/不满足状态）
+    NODE_ACTIVE, //满足条件 的 节点激活 ，不满足的不激活
+    NODE_VISIBLE, //满足条件 的节点显示，不满足的不显示
+    NODE_OPACITY,  //满足条件的节点改变不透明度，不满足的还原255
+    NODE_COLOR, //满足条件的节点改变颜色，不满足的恢复白色
 }
 
 
@@ -26,7 +27,7 @@ enum ACTION {
  */
 @ccclass
 @menu('ModelViewer/VM-State (VM状态控制)')
-export default class VMState extends cc.Component {
+export default class VMState extends VMBase {
 
     @property
     watchPath:string = "";
@@ -50,7 +51,7 @@ export default class VMState extends cc.Component {
     valueAction:ACTION =  ACTION.NODE_ACTIVE;
 
     @property({
-        visible:function(){return this.valueAction === ACTION.NODE_VISIBLE},
+        visible:function(){return this.valueAction === ACTION.NODE_OPACITY},
         range:[0,255],
         type:cc.Integer,
         displayName:'Action Opacity'
@@ -122,8 +123,9 @@ export default class VMState extends cc.Component {
             let a = ACTION;
             switch (n) {
                 case a.NODE_ACTIVE: node.active = check?true:false;  break; 
-                case a.NODE_VISIBLE: node.opacity = check?255:this.valueActionOpacity;  break;
-                case a.NODE_COLOR: node.color = check?cc.color(255,255,255):this.valueActionColor; break;
+                case a.NODE_VISIBLE: node.opacity = check?255:0;  break;
+                case a.NODE_COLOR: node.color = check?this.valueActionColor:cc.color(255,255,255); break;
+                case a.NODE_OPACITY: node.opacity = check?this.valueActionOpacity:255;  break;
             
                 default:
                     break;

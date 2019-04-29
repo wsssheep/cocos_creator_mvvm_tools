@@ -1,4 +1,4 @@
-import { VM } from './JsonOb';
+import VMBase from './VMBase';
 
 
 const {ccclass, property,menu} = cc._decorator;
@@ -17,7 +17,7 @@ enum CLAMP_MODE {
  */
 @ccclass
 @menu('ModelViewer/VM-Modify(修改Model)')
-export default class VMModify extends cc.Component {
+export default class VMModify extends VMBase {
 
     @property
     watchPath:string = "";
@@ -40,9 +40,6 @@ export default class VMModify extends cc.Component {
         visible:function(){return this.valueClamp === true && this.valueClampMode !== CLAMP_MODE.MIN}
     })
     valueMax:number = 1;
-
-
-    _vm = VM;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -92,35 +89,35 @@ export default class VMModify extends cc.Component {
 
     vAdd(e:cc.Event,data:any,int:boolean = false){
         let a = parseFloat(data);
-        let res =  this._vm.getValue(this.watchPath,0) + a;
+        let res =  this.VM.getValue(this.watchPath,0) + a;
         if(int){res = Math.round(res)}
-        this._vm.setValue(this.watchPath,this.clampValue(res));
+        this.VM.setValue(this.watchPath,this.clampValue(res));
     }
 
     vSub(e,data:any,int:boolean = false){
         let a = parseFloat(data);
-        let res =  this._vm.getValue(this.watchPath,0) - a;
+        let res =  this.VM.getValue(this.watchPath,0) - a;
         if(int){res = Math.round(res)}
-        this._vm.setValue(this.watchPath,this.clampValue(res));
+        this.VM.setValue(this.watchPath,this.clampValue(res));
     }
 
     vMul(e,data:any,int:boolean = false){
         let a = parseFloat(data);
-        let res =  this._vm.getValue(this.watchPath,0) * a;
+        let res =  this.VM.getValue(this.watchPath,0) * a;
         if(int){res = Math.round(res)}
-        this._vm.setValue(this.watchPath,this.clampValue(res));
+        this.VM.setValue(this.watchPath,this.clampValue(res));
     }
 
     vDiv(e,data:any,int:boolean = false){
         let a = parseFloat(data);
-        let res =  this._vm.getValue(this.watchPath,0) / a;
+        let res =  this.VM.getValue(this.watchPath,0) / a;
         if(int){res = Math.round(res)}
-        this._vm.setValue(this.watchPath,this.clampValue(res));
+        this.VM.setValue(this.watchPath,this.clampValue(res));
     }
 
     vString(e,data:any){
         let a = data;
-        this._vm.setValue(this.watchPath,a);
+        this.VM.setValue(this.watchPath,a);
     }
 
     vNumberInt(e,data:any){ 
@@ -130,7 +127,7 @@ export default class VMModify extends cc.Component {
     vNumber(e,data:any,int:boolean = false){ 
         let a = parseFloat(data);
         if(int){a = Math.round(a)}
-        this._vm.setValue(this.watchPath,this.clampValue(a));
+        this.VM.setValue(this.watchPath,this.clampValue(a));
     }
 
     // update (dt) {}

@@ -1,4 +1,4 @@
-import { VM } from './JsonOb';
+import VMBase from './VMBase';
 
 //todo
 
@@ -28,7 +28,7 @@ enum WatchMode {
 @ccclass
 @executeInEditMode
 @menu('ModelViewer/VM-EventCall(调用函数)')
-export default class VMEvent extends cc.Component {
+export default class VMEvent extends VMBase {
 
     @property({
         displayName:'Watch Path',
@@ -45,12 +45,12 @@ export default class VMEvent extends cc.Component {
     onEnable(){
         //this.node.on(this.eventName,this.receiveEvent,this,true);
         if(this.watchPath == '')return;
-        VM.bindPath(this.watchPath,this.valueChanged,this);
+        this.VM.bindPath(this.watchPath,this.valueChanged,this);
     }
 
     onDisable(){
         if(this.watchPath == '')return;
-        VM.unbindPath(this.watchPath,this.valueChanged,this);
+        this.VM.unbindPath(this.watchPath,this.valueChanged,this);
     }
 
     

@@ -422,7 +422,7 @@
     "_enabled": true,
     "watchPath": "shop.item.name",
     "labelType": "cc.Label",
-    "templateMode": 0,
+    "templateMode": false,
     "templatePathArr": [],
     "_id": ""
   },
@@ -538,7 +538,7 @@
     "_enabled": true,
     "watchPath": "",
     "labelType": "cc.Label",
-    "templateMode": 1,
+    "templateMode": true,
     "templatePathArr": [
       "shop.owns",
       "shop.item.max"
@@ -657,7 +657,7 @@
     "_enabled": true,
     "watchPath": "shop.buy",
     "labelType": "cc.Label",
-    "templateMode": 0,
+    "templateMode": false,
     "templatePathArr": [],
     "_id": ""
   },
@@ -1917,7 +1917,7 @@
     "_enabled": true,
     "watchPath": "",
     "labelType": "cc.Label",
-    "templateMode": 1,
+    "templateMode": true,
     "templatePathArr": [
       "shop.item.price",
       "shop.item.max"
@@ -2995,7 +2995,7 @@
     "_enabled": true,
     "watchPath": "",
     "labelType": "cc.Label",
-    "templateMode": 1,
+    "templateMode": true,
     "templatePathArr": [
       "shop.cost"
     ],
@@ -3113,7 +3113,7 @@
     "_enabled": true,
     "watchPath": "",
     "labelType": "cc.Label",
-    "templateMode": 1,
+    "templateMode": true,
     "templatePathArr": [
       "game.diamond"
     ],

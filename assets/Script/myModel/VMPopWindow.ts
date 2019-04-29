@@ -26,7 +26,7 @@ VM.add(ui_shop, 'shop');     //定义全局tag
  * 将逻辑判断放在这里
  */
 @ccclass
-export default class VMPopWindow extends VMParent {
+export default class VMPopWindow extends cc.Component {
 
     parentPath = 'shop';
     private shop:ModelShopShip = VM.get<ModelShopShip>('shop').$data;
@@ -35,7 +35,7 @@ export default class VMPopWindow extends VMParent {
     onLoad(){
         this.init();
     }
-
+  
     init(){
         this.shop.buy = 0;
         this.shop.item.name = '名字不错';

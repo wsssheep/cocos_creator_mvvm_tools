@@ -47,6 +47,8 @@ class PlayData {
     luk:number = 5;
     cri:number = 0; //暴击率
     skill_point:number = 15;//技能点
+    equips = [3,3,2,0,0,1,-1] //对应8个装备孔的id编号（会自动索引到需要的数据库）
+    package = []; //道具背包（所有道具保存在这里
 
 }
 

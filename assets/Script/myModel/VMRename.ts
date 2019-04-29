@@ -1,31 +1,35 @@
-import { VM } from './../modelView/JsonOb';
-import VMParent from "../modelView/VMParent";
+import VMParent from '../modelView/VMParent';
+
 
 const {ccclass, property} = cc._decorator;
 
-class ModelRename {
-    name: string = '';
-}
-
-let rename = new ModelRename();
-VM.add(rename,'rename')
 
 @ccclass
 export default class VMRename extends VMParent {
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-        this.init();
+    tag:string = 'rename';
+
+    //绑定的数据模型
+    data = {
+        name:'',
+        find:'test',
+        cost:64
     }
 
-    init(){
+    onBind(){
 
+    }
+    
+    start () {
+        
+        this.data.name = this.VM.getValue('player.name',"?");
     }
 
     onRename(){
-        if(rename.name !== ''){
-            VM.setValue('player.name',rename.name);
+        if(this.data.name !== ''){
+            this.VM.setValue('player.name',this.data.name);
         }
         this.node.destroy();
     }
@@ -34,9 +38,6 @@ export default class VMRename extends VMParent {
         this.node.destroy();
     }
 
-    start () {
-
-    }
-
     // update (dt) {}
 }
+

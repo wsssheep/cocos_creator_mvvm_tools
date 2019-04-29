@@ -184,21 +184,35 @@ class VMManager {
         /**静态数组，保存创建的 mv 组件 */
         private _mvs:Array<{tag:string,vm:ViewModel<any>}> = [];
 
-        public EMIT_HEAD = VM_EMIT_HEAD;
+        private EMIT_HEAD = VM_EMIT_HEAD;
+
 
         /**
-         * 绑定一个数据
+         * 绑定一个数据，并且可以由VM所管理
          * @param data 需要绑定的数据
          * @param tag 对应该数据的标签(用于识别为哪个VM，不允许重复)
          */
         add<T>(data:T,tag:string = 'global'){
             let vm = new ViewModel<T>(data,tag);
             let has = this._mvs.find(v=>v.tag === tag);
+            if(tag.includes('.')){
+                console.error('cant write . in tag:',tag);
+                return;
+            }
             if(has){
                 console.error('already set VM tag:'+ tag);
                 return;
             }
             this._mvs.push({tag:tag,vm:vm});
+        }
+
+        /**
+         * 移除并且销毁 VM 对象
+         * @param tag 
+         */
+        remove(tag:string){
+            let index = this._mvs.findIndex(v => v.tag === tag);
+            if(index >=0 ) this._mvs.splice(index,1);
         }
 
         /**
@@ -264,14 +278,23 @@ class VMManager {
         /**等同于 cc.director.on */
         bindPath(path: string, callback: Function, target?: any, useCapture?: boolean):void{
             path =  path.trim();//防止空格,自动剔除
+            if(path.split('.')[0] === '*'){
+                console.error(path,'路径不合法');
+                return;
+            }
             cc.director.on(VM_EMIT_HEAD + path, callback, target, useCapture);
         }
 
         /**等同于 cc.director.off */
         unbindPath(path: string, callback: Function, target?: any):void{
             path =  path.trim();//防止空格,自动剔除
+            if(path.split('.')[0] === '*'){
+                console.error(path,'路径不合法');
+                return;
+            }
             cc.director.off(VM_EMIT_HEAD + path, callback, target);
         }
+
 
         /**冻结所有标签的 VM，视图将不会受到任何信息 */
         inactive():void

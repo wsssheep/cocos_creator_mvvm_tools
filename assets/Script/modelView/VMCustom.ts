@@ -1,4 +1,4 @@
-import { VM } from './JsonOb';
+import VMBase from './VMBase';
 
 const {ccclass, property,executeInEditMode,menu} = cc._decorator;
 
@@ -21,10 +21,13 @@ const COMP_ARRAY_CHECK= [
 @ccclass
 @executeInEditMode
 @menu('ModelViewer/VM-Custom (自定义VM)')
-export default class VMCustom extends cc.Component {
+export default class VMCustom extends VMBase {
 
     @property
     watchPath:string = "";
+
+    @property
+    debug:boolean = false;
 
     @property({
         tooltip:'激活controller,以开启双向绑定，否则只能接收消息'
@@ -109,24 +112,26 @@ export default class VMCustom extends cc.Component {
     }
 
     start () {
-
+        //从 watch 的路径中获取一个初始值
+        if(CC_EDITOR)return;
+        this.setComponentValue(this.VM.getValue(this.watchPath));
     }
 
     onEnable(){
         if(this.watchPath == '')return;
-       VM.bindPath(this.watchPath,this.onValueChanged,this);
+       this.VM.bindPath(this.watchPath,this.onValueChanged,this);
     }
 
     onDisable(){
         if(this.watchPath == '')return;
-       VM.unbindPath(this.watchPath,this.onValueChanged,this);
+       this.VM.unbindPath(this.watchPath,this.onValueChanged,this);
     }
 
     checkComponentState(){
         this._canWatchComponent = false;
-        if(!this._watchComponent)return;
-        if(!this.componentProperty)return;
-        if( this.componentProperty in this._watchComponent === false )return;
+        if(!this._watchComponent){console.error('未设置需要监听的组件');return;}
+        if(!this.componentProperty){console.error('未设置需要监听的组件 的属性');return;}
+        if( this.componentProperty in this._watchComponent === false ){console.error('需要监听的组件的属性不存在');return;}
         this._canWatchComponent = true;
   
     }
@@ -151,6 +156,7 @@ export default class VMCustom extends cc.Component {
     }
 
     onValueChanged(n,o,path){
+        if(this.debug)console.log(n,o,path.join('.'));
         this.setComponentValue(n);
     }
 
@@ -167,7 +173,7 @@ export default class VMCustom extends cc.Component {
 
         if(this._oldValue === this.getComponentValue())return;
          this._oldValue = this.getComponentValue();
-         VM.setValue(this.watchPath,this._oldValue);
+         this.VM.setValue(this.watchPath,this._oldValue);
   
     }
 }

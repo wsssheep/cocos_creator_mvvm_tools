@@ -38,12 +38,13 @@ let add_point = new ModelAddPoint();
 VM.add(add_point,'add_point');
 
 @ccclass
-export default class VMAddPoint extends VMParent {
+export default class VMAddPoint extends cc.Component {
 
     private player:any = VM.get('player').$data;
 
     // LIFE-CYCLE CALLBACKS:
-    onLoad () {
+
+    onLoad(){
         this.init();
     }
 

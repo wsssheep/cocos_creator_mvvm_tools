@@ -94,20 +94,20 @@ export default class VMBase extends cc.Component {
 
     onEnable(){
         if(this.templateMode){
-            this.setMultPathEvent(true);return;
+            this.setMultPathEvent(true);
+        }else if(this.watchPath != ''){
+            this.VM.bindPath(this.watchPath,this.onValueChanged,this);
         }
-
-        if(this.watchPath == '')return;
-       this.VM.bindPath(this.watchPath,this.onValueChanged,this);
+        
+       this.onValueInit();//激活时,调用值初始化
     }
 
     onDisable(){
         if(this.templateMode){
-            this.setMultPathEvent(false);return;
+            this.setMultPathEvent(false);
+        }else if(this.watchPath != ''){
+            this.VM.unbindPath(this.watchPath,this.onValueChanged,this);
         }
-
-        if(this.watchPath == '')return;
-       this.VM.unbindPath(this.watchPath,this.onValueChanged,this);
     }
 
     //多路径监听方式
@@ -127,6 +127,7 @@ export default class VMBase extends cc.Component {
 
     onValueInit(){
         //虚方法
+    
     }
 
     onValueChanged(n,o,pathArr:string[]){

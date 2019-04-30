@@ -75,23 +75,6 @@ export default class VMLabel extends VMBase {
 
     }
 
-    onEnable() {
-        if (this.templateMode) {
-            this.setMultPathEvent(true);
-            return;
-        }
-        if (this.watchPath == '') return;
-        this.VM.bindPath(this.watchPath, this.onValueChanged, this);
-    }
-
-    onDisable() {
-        if (this.templateMode) {
-            this.setMultPathEvent(false);
-            return;
-        }
-        if (this.watchPath == '') return;
-        this.VM.unbindPath(this.watchPath, this.onValueChanged, this);
-    }
 
     //多路径监听方式
     setMultPathEvent(enabled: boolean = true) {
@@ -156,6 +139,7 @@ export default class VMLabel extends VMBase {
 
     /**初始化获取数据 */
     onValueInit() {
+        console.log('初始化');
         //更新信息
         if (this.templateMode === false) {
             this.setLabelValue(this.VM.getValue(this.watchPath)); //

@@ -160,7 +160,7 @@ class ViewModel<T>{
                 if(path.length>=2){
                     for (let i = 0; i < path.length-1; i++) {
                         const e = path[i];
-                        console.log('中端路径');
+                        //console.log('中端路径');
                         
                     }
                 }

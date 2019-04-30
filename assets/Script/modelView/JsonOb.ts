@@ -252,7 +252,7 @@ class VMManager {
         getValue(path: string,def?:any):any {
             path =  path.trim();//防止空格,自动剔除
             let rs = path.split('.');
-            if(rs.length<2){console.error('Cant find path:'+path)};
+            if(rs.length<2){console.error('Get Value Cant find path:'+path);return;};
             let vm = this.get(rs[0]);
             if(!vm){console.error('Cant Get VM:'+rs[0]);return;};
             return vm.getValue(rs.slice(1).join('.'),def);
@@ -266,7 +266,7 @@ class VMManager {
         setValue(path: string, value: any) {
             path =  path.trim();//防止空格,自动剔除
             let rs = path.split('.');
-            if(rs.length<2){console.error('Cant find path:'+path)};
+            if(rs.length<2){console.error('Set Value Cant find path:'+path);return;};
             let vm = this.get(rs[0]);
             if(!vm){console.error('Cant Set VM:'+rs[0]);return;};
             vm.setValue(rs.slice(1).join('.'),value);
@@ -279,6 +279,10 @@ class VMManager {
         /**等同于 cc.director.on */
         bindPath(path: string, callback: Function, target?: any, useCapture?: boolean):void{
             path =  path.trim();//防止空格,自动剔除
+            if(path == ''){
+                console.error(target.node.name,'节点绑定的路径为空');
+                return;
+            }
             if(path.split('.')[0] === '*'){
                 console.error(path,'路径不合法');
                 return;

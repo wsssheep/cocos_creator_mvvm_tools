@@ -34,8 +34,8 @@ class PlayData {
     exp:number = 0;//exp
     exp_max:number = 0;//升级目标exp
 
-    hp:number = 50;
-    mhp:number = 15000;
+    hp:number = 450;
+    mhp:number = 1500;
     mp:number =  700;
     mmp:number = 15000;
 

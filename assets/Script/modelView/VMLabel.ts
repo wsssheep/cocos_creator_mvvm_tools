@@ -1,12 +1,12 @@
 import VMBase from './VMBase';
 import { StringFormatFunction } from './StringFormat';
 
-const {ccclass, property,menu,executeInEditMode} = cc._decorator;
+const { ccclass, property, menu, executeInEditMode } = cc._decorator;
 
 const LABEL_TYPE = {
-    CC_LABEL:'cc.Label',
-    CC_RICH_TEXT:'cc.RichText',
-    CC_EDIT_BOX:'cc.EditBox'
+    CC_LABEL: 'cc.Label',
+    CC_RICH_TEXT: 'cc.RichText',
+    CC_EDIT_BOX: 'cc.EditBox'
 }
 
 
@@ -22,51 +22,51 @@ const LABEL_TYPE = {
 export default class VMLabel extends VMBase {
 
     @property({
-        visible:function(){
+        visible: function () {
             return this.templateMode === false;
         }
     })
-    watchPath:string = "";
+    watchPath: string = "";
 
 
     @property({
         //type:cc.Enum(LABEL_TYPE),
-        readonly:true
+        readonly: true
     })
-    private labelType:string = LABEL_TYPE.CC_LABEL;
+    private labelType: string = LABEL_TYPE.CC_LABEL;
 
     @property({
-        tooltip:'是否启用模板代码,只能在运行时之前设置,\n将会动态解析模板语法 {{0}},并且自动设置监听的路径'
+        tooltip: '是否启用模板代码,只能在运行时之前设置,\n将会动态解析模板语法 {{0}},并且自动设置监听的路径'
     })
-    private templateMode:boolean = false;
+    public templateMode: boolean = false;
 
 
     //按照匹配参数顺序保存的 path 数组 （固定）
     @property({
-        type:[cc.String],
-        visible:function(){return this.templateMode === true}
+        type: [cc.String],
+        visible: function () { return this.templateMode === true }
     })
-    protected watchPathArr:string[] = [];
+    protected watchPathArr: string[] = [];
 
     //按照路径参数顺序保存的 值的数组（固定）
-    private templateValueArr:any[] = [];
+    protected templateValueArr: any[] = [];
 
     //保存着字符模板格式的数组 (只会影响显示参数)
-    private templateFormatArr:string[] = [];
+    private templateFormatArr: string[] = [];
 
-    originText:string = null;
+    originText: string = null;
 
     // LIFE-CYCLE CALLBACKS:
 
-    onRestore(){
+    onRestore() {
         this.checkLabel();
     }
 
-    onLoad () {
+    onLoad() {
         super.onLoad();
         this.checkLabel();
-        if(!CC_EDITOR){
-            if(this.templateMode){
+        if (!CC_EDITOR) {
+            if (this.templateMode) {
                 this.originText = this.getLabelValue();
                 this.parseTemplate();
             }
@@ -75,36 +75,51 @@ export default class VMLabel extends VMBase {
 
     }
 
-    onEnable(){
-        if(this.templateMode){
+    onEnable() {
+        if (this.templateMode) {
             this.setMultPathEvent(true);
             return;
         }
-        if(this.watchPath == '')return;
-        this.VM.bindPath(this.watchPath,this.onValueChanged,this);
+        if (this.watchPath == '') return;
+        this.VM.bindPath(this.watchPath, this.onValueChanged, this);
     }
 
-    onDisable(){
-        if(this.templateMode){
+    onDisable() {
+        if (this.templateMode) {
             this.setMultPathEvent(false);
             return;
         }
-        if(this.watchPath == '')return;
-        this.VM.unbindPath(this.watchPath,this.onValueChanged,this);
+        if (this.watchPath == '') return;
+        this.VM.unbindPath(this.watchPath, this.onValueChanged, this);
+    }
+
+    //多路径监听方式
+    setMultPathEvent(enabled: boolean = true) {
+        if (CC_EDITOR) return;
+        let arr = this.watchPathArr;
+        for (let i = 0; i < arr.length; i++) {
+            const path = arr[i];
+            if (enabled) {
+                this.VM.bindPath(path, this.onValueChanged, this);
+            } else {
+                this.VM.unbindPath(path, this.onValueChanged, this);
+            }
+        }
+
     }
 
     //解析模板 获取初始格式化字符串格式 的信息
-    parseTemplate(){
+    parseTemplate() {
         let regexAll = /\{\{(.+?)\}\}/g; //匹配： 所有的{{value}}
         let regex = /\{\{(.+?)\}\}/;//匹配： {{value}} 中的 value
         let res = this.originText.match(regexAll);//匹配结果数组
-        if(res == null)return;
+        if (res == null) return;
         for (let i = 0; i < res.length; i++) {
             const e = res[i];
             let arr = e.match(regex);
-            let matchName =  arr[1];
+            let matchName = arr[1];
             //let paramIndex = parseInt(matchName)||0;
-            let matchInfo = matchName.split(':')[1]||'';
+            let matchInfo = matchName.split(':')[1] || '';
             this.templateFormatArr[i] = matchInfo;
         }
         //监听对应的数值变化
@@ -112,91 +127,76 @@ export default class VMLabel extends VMBase {
 
     }
 
-    //多路径监听方式
-    setMultPathEvent(enabled:boolean = true){
-        if(CC_EDITOR)return;
-        let arr = this.watchPathArr;
-        for (let i = 0; i < arr.length; i++) {
-            const path = arr[i];
-            if(enabled){
-                this.VM.bindPath(path,this.onValueChanged,this);
-            }else{
-                this.VM.unbindPath(path,this.onValueChanged,this);
-            }
-        }
 
-    }
 
     /**获取解析字符串模板后得到的值 */
-    getReplaceText(){
+    getReplaceText() {
         let regexAll = /\{\{(.+?)\}\}/g; //匹配： 所有的{{value}}
         let regex = /\{\{(.+?)\}\}/;//匹配： {{value}} 中的 value
         let res = this.originText.match(regexAll);//匹配结果数组 [{{value}}，{{value}}，{{value}}]
-        if(res == null)return '';//未匹配到文本
+        if (res == null) return '';//未匹配到文本
         let str = this.originText;//原始字符串模板 "name:{{0}} 或 name:{{0:fix2}}"
-  
+
         for (let i = 0; i < res.length; i++) {
             const e = res[i];
             let getValue;
             let arr = e.match(regex); //匹配到的数组 [{{value}}, value]
-            let indexNum = parseInt(arr[1]||'0')||0; //取出数组的 value 元素 转换成整数
+            let indexNum = parseInt(arr[1] || '0') || 0; //取出数组的 value 元素 转换成整数
             let format = this.templateFormatArr[i]; //格式化字符 的 配置参数
             getValue = this.templateValueArr[indexNum];
-            str =  str.replace(e,this.getValueFromFormat(getValue,format));//从路径缓存值获取数据
+            str = str.replace(e, this.getValueFromFormat(getValue, format));//从路径缓存值获取数据
         }
         return str;
     }
 
-    getValueFromFormat(value:number|string,format:string):string{
-       return StringFormatFunction.deal(value,format);
+    /** 格式化字符串 */
+    getValueFromFormat(value: number | string, format: string): string {
+        return StringFormatFunction.deal(value, format);
     }
 
-    onValueInit(){
+    /**初始化获取数据 */
+    onValueInit() {
         //更新信息
-        if(this.templateMode === false){
+        if (this.templateMode === false) {
             this.setLabelValue(this.VM.getValue(this.watchPath)); //
-        }else{
+        } else {
             let max = this.watchPathArr.length;
             for (let i = 0; i < max; i++) {
-                this.templateValueArr[i] = this.VM.getValue(this.watchPathArr[i],'?');
+                this.templateValueArr[i] = this.VM.getValue(this.watchPathArr[i], '?');
             }
             this.setLabelValue(this.getReplaceText()); // 重新解析
         }
     }
 
     /**监听数据发生了变动的情况 */
-    onValueChanged(n,o,pathArr:string[]){
-        if(this.templateMode === false){
+    onValueChanged(n, o, pathArr: string[]) {
+        if (this.templateMode === false) {
             this.setLabelValue(n);
 
-        }else{
+        } else {
             let path = pathArr.join('.');
             //寻找缓存位置
-            let index =  this.watchPathArr.findIndex(v=>{
-                return v === path;
-            });
+            let index = this.watchPathArr.findIndex(v => v === path);
 
-            if(index >= 0){ 
+            if (index >= 0) {
                 //如果是所属的路径，就可以替换文本了
                 this.templateValueArr[index] = n; //缓存值
                 this.setLabelValue(this.getReplaceText()); // 重新解析文本
             }
 
         }
- 
+
     }
 
-    setLabelValue(value){
+    setLabelValue(value) {
         this.getComponent(this.labelType).string = value + '';
     }
 
-    getLabelValue():string{
+    getLabelValue(): string {
         return this.getComponent(this.labelType).string;
     }
-    
-    
 
-    checkLabel(){
+    checkLabel() {
         let checkArray = [
             'cc.Label',
             'cc.RichText',
@@ -206,11 +206,11 @@ export default class VMLabel extends VMBase {
         for (let i = 0; i < checkArray.length; i++) {
             const e = checkArray[i];
             let comp = this.node.getComponent(e);
-            if(comp){
+            if (comp) {
                 this.labelType = e;
                 return true;
             }
-            
+
         }
 
         cc.error('没有挂载任何label组件');

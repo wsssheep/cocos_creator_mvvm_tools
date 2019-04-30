@@ -63,7 +63,8 @@ export default class VMPopWindow extends cc.Component {
     }
 
     onDragProgress(){
-        this.shop.buy = Math.round(this.shop.progress * this.shop.max);
+        //this.shop.buy = Math.round(this.shop.progress * this.shop.max);
+        console.log(this.shop.buy,this.shop.item.price);
         this.shop.cost = Math.floor(this.shop.buy * this.shop.item.price);
     }
 

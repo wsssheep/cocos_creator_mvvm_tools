@@ -44,3 +44,5 @@
 
 具体使用方式请查看附带文档：/docs
 
+[查看文档]: https://github.com/wsssheep/cocos_creator_mvvm_tools/blob/master/docs/ViewModelScript.md
+

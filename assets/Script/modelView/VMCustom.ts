@@ -7,7 +7,6 @@ const { ccclass, property, executeInEditMode, menu } = cc._decorator;
 const COMP_ARRAY_CHECK= [
     ['BhvFrameIndex','index',false],
     ['BhvGroupToggle','index',false],
-    ['BhvRollCustom','targetValue',false],
     ['BhvRollNumber','targetValue',false],
     //组件名、默认属性、controller值
     ['cc.Label','string',false],

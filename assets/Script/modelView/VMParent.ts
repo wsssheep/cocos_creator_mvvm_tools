@@ -58,6 +58,11 @@ export default class VMParent extends cc.Component {
 
     }
 
+    /**在 onDestroy() 后调用,此时仍然可以获取绑定的 data 数据*/
+    protected onUnBind() {
+
+    }
+
     private replaceVMPath(comp:cc.Component,tag:string){
         let path: string = comp['watchPath'];
         //let comp_name: string = comp.name;
@@ -98,6 +103,8 @@ export default class VMParent extends cc.Component {
     }
 
 
+
+
     /**
      * [注意]不能覆盖此方法，如果需要覆盖。
      * 需要在该方法内部调用父类的实现，再定义自己的方法
@@ -108,6 +115,7 @@ export default class VMParent extends cc.Component {
       ```
      */
     protected onDestroy() {
+        this.onUnBind();
         //解除全部引用
         VM.remove(this.tag);
         this.data = null;

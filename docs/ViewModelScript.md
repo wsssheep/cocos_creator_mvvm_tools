@@ -14,7 +14,7 @@ VM是 VMManager 的实例, 用于管理所有的 ViewModel 实例。ViewModel实
 import { VM } from './ViewModel';
 ```
 
-- add - 创建并且添加一个 ViewModel 对象
+- `add` - 创建并且添加一个 ViewModel 对象
 
   ``` typescript
   VM.add(data,tag);
@@ -22,7 +22,7 @@ import { VM } from './ViewModel';
   //tag  - 该数据对象的索引标签，用于之后获取该 ViewModel 对象
   ```
 
-- get - 获取
+- `get` - 获取
 
   ```typescript
   let vm =  VM.get(tag);//获取的结果是一个 ViewModel 对象
@@ -30,35 +30,36 @@ import { VM } from './ViewModel';
   vm.active = false; // 关闭 vm 的数据通知功能
   ```
 
-- remove - 移除
+- `remove` - 移除
 
   ```typescript
   VM.remove(tag);//移除一个指定 tag 的 ViewModel 对象
   ```
-- setValue - 设置一个值（以tag开头的全局路径）
+- `setValue` - 设置一个值（以tag开头的全局路径）
 
     ```typescript
     VM.setValue('global.player.name','wss');
     //注意 global 是 ViewModel 的标签，player.name 是 ViewModel 内部的取值路径
     //使用 VM 全局管理，必须按这种全局路径的方式设置值
     ```
-- addValue - 累加一个值（以tag开头的全局路径）
+- `addValue` - 累加一个值（以tag开头的全局路径）
+
   ```typescript
   VM.addValue('global.player.hp',10);
   ```
 
-- getValue -  获取一个值（以tag开头的全局路径）
+- `getValue` -  获取一个值（以tag开头的全局路径）
 
-    ```typescript
+  ```typescript
   VM.getValue('global.player.name',default);//default 是 默认值
   ```
 
-- setObjValue  - 以路径的形式 设置 一个 对象的值
-- getObjValue - 以路径的形式 获取 一个 对象的值
-- bindPath - 绑定需要监听的路径
-- unbindPath - 取消绑定需要监听的路径
-- active - 激活 数值变动的事件通知
-- inactive - 关闭 数值变动的事件通知
+- `setObjValue`  - 以路径的形式 设置 一个 对象的值
+- `getObjValue` - 以路径的形式 获取 一个 对象的值
+- `bindPath` - 绑定需要监听的路径
+- `unbindPath` - 取消绑定需要监听的路径
+- `active` - 激活 数值变动的事件通知
+- `inactive` - 关闭 数值变动的事件通知
 
 ### 例子
 

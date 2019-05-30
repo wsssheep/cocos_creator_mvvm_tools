@@ -54,21 +54,22 @@ class StringFormat {
 
     //将数字按分显示 00:00 显示 （ms制）
     private time_m(value: number) {
-
+        //todo
     }
 
     //将数字按秒显示 00:00:00 显示 （ms制）
     private time_s(value: number) {
-
+        //todo
     }
 
     //将数字按 0:00:00:000 显示 （ms制）
     private time_ms(value: number) {
-
+        //todo
     }
 
     //将时间戳显示为详细的内容
     private timeStamp(value: number) {
+        //todo
         return new Date(value).toString()
     }
 

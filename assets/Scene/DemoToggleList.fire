@@ -17,7 +17,7 @@
         "__id__": 2
       },
       {
-        "__id__": 86
+        "__id__": 87
       }
     ],
     "_active": true,
@@ -89,6 +89,9 @@
     "_components": [
       {
         "__id__": 85
+      },
+      {
+        "__id__": 86
       }
     ],
     "_prefab": null,
@@ -3924,6 +3927,26 @@
     "_id": "00dCveZ1pFubT+abHZAFbx"
   },
   {
+    "__type__": "2359eFXKF5HFYS74K7Y17/U",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "findList": [
+      "VMBase",
+      "VMParent"
+    ],
+    "actionType": 2,
+    "allowDelete": false,
+    "targetPath": "game",
+    "replacePath": "*",
+    "canCollectNodes": false,
+    "collectNodes": [],
+    "_id": "2bLNC/bytIx5RRE9CqHPce"
+  },
+  {
     "__type__": "cc.Node",
     "_name": "label",
     "_objFlags": 0,
@@ -3935,7 +3958,7 @@
     "_level": 1,
     "_components": [
       {
-        "__id__": 87
+        "__id__": 88
       }
     ],
     "_prefab": null,
@@ -3989,7 +4012,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 86
+      "__id__": 87
     },
     "_enabled": true,
     "_srcBlendFactor": 1,

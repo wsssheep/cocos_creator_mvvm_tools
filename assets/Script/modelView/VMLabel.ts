@@ -76,20 +76,20 @@ export default class VMLabel extends VMBase {
     }
 
 
-    //多路径监听方式
-    setMultPathEvent(enabled: boolean = true) {
-        if (CC_EDITOR) return;
-        let arr = this.watchPathArr;
-        for (let i = 0; i < arr.length; i++) {
-            const path = arr[i];
-            if (enabled) {
-                this.VM.bindPath(path, this.onValueChanged, this);
-            } else {
-                this.VM.unbindPath(path, this.onValueChanged, this);
-            }
-        }
+    // //多路径监听方式
+    // protected setMultPathEvent(enabled: boolean = true) {
+    //     if (CC_EDITOR) return;
+    //     let arr = this.watchPathArr;
+    //     for (let i = 0; i < arr.length; i++) {
+    //         const path = arr[i];
+    //         if (enabled) {
+    //             this.VM.bindPath(path, this.onValueChanged, this);
+    //         } else {
+    //             this.VM.unbindPath(path, this.onValueChanged, this);
+    //         }
+    //     }
 
-    }
+    // }
 
     //解析模板 获取初始格式化字符串格式 的信息
     parseTemplate() {
@@ -106,7 +106,7 @@ export default class VMLabel extends VMBase {
             this.templateFormatArr[i] = matchInfo;
         }
         //监听对应的数值变化
-        this.setMultPathEvent(true);
+        //this.setMultPathEvent(true);
 
     }
 
@@ -139,7 +139,6 @@ export default class VMLabel extends VMBase {
 
     /**初始化获取数据 */
     onValueInit() {
-        console.log('初始化');
         //更新信息
         if (this.templateMode === false) {
             this.setLabelValue(this.VM.getValue(this.watchPath)); //

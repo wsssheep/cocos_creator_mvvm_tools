@@ -13,11 +13,21 @@ import VMBase from './VMBase';
 
 const {ccclass, property,executeInEditMode,menu} = cc._decorator;
 
-enum WatchMode {
-    ccLabel,
-    ccRichText,
-    ccSlider,
-    ccProgressBar,
+// enum WatchMode {
+//     ccLabel,
+//     ccRichText,
+//     ccSlider,
+//     ccProgressBar,
+// }
+
+enum FILTER_MODE {
+    "none",
+    "==", //正常计算，比较 等于
+    "!=", //正常计算，比较 不等于
+    ">",  //正常计算，比较>
+    ">=", //正常计算，比较>=
+    "<",  //正常计算，比较<
+    "<=", // 正常计算，比较>=
 }
 
 /**
@@ -29,11 +39,41 @@ enum WatchMode {
 @executeInEditMode
 @menu('ModelViewer/VM-EventCall(调用函数)')
 export default class VMEvent extends VMBase {
-
+    
     @property({
-        displayName:'Watch Path',
+        tooltip: '使用模板模式，可以使用多路径监听'
+    })
+    public templateMode: boolean = false;
+ 
+    @property({
+        tooltip:'监听获取值的路径',
+        visible:function(){return this.templateMode === false }
     })
     watchPath:string = "";
+
+    @property({
+        tooltip:'触发一次后会自动关闭该事件'
+    })
+    triggerOnce:boolean = false;
+
+    @property({
+        tooltip:'监听获取值的多条路径,这些值的改变都会通过这个函数回调,请使用 pathArr 区分获取的值 ',
+        type: [cc.String],
+        visible: function () { return this.templateMode === true }
+    })
+    protected watchPathArr: string[] = [];
+
+    @property({
+        tooltip: '过滤模式，会根据条件过滤掉时间的触发',
+        type:cc.Enum(FILTER_MODE)
+    })
+    public filterMode:FILTER_MODE = FILTER_MODE.none;
+
+    @property({
+        visible:function(){return this.filterMode !== FILTER_MODE.none}
+    })
+    public compareValue:string = '';
+
 
     @property([cc.Component.EventHandler])
     changeEvents:cc.Component.EventHandler[] = [];
@@ -42,29 +82,62 @@ export default class VMEvent extends VMBase {
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
-    onEnable(){
-        //this.node.on(this.eventName,this.receiveEvent,this,true);
-        if(this.watchPath == '')return;
-        this.VM.bindPath(this.watchPath,this.valueChanged,this);
-    }
 
-    onDisable(){
-        if(this.watchPath == '')return;
-        this.VM.unbindPath(this.watchPath,this.valueChanged,this);
+    onValueInit(){
+        
     }
-
     
-    valueChanged(newVar:any,oldVar:any,pathArr:any[]){
+    onValueChanged(newVar:any,oldVar:any,pathArr:any[]){
+        let res =  this.conditionCheck(newVar,this.compareValue);
+        if(!res)return;
+        
         if(Array.isArray(this.changeEvents)){
             this.changeEvents.forEach(v=>{
                 v.emit([newVar,oldVar,pathArr]);
             })
         }
+
+        //激活一次后，自动关闭组件
+        if(this.triggerOnce === true){
+            this.enabled = false;
+        }
     }
 
 
-    start () {
+      /**条件检查 */
+      private conditionCheck(a,b):boolean{
+        let cod = FILTER_MODE;
 
+        switch (this.filterMode) {
+            case cod.none:
+                return true;
+            case cod["=="]:
+                if(a == b)return true;
+                break;
+            case cod["!="]:
+                if(a != b)return true;
+                break;
+            case cod["<"]:
+                if(a < b)return true;
+                break;
+            case cod[">"]:
+                if(a > b)return true;
+                break;
+            case cod[">="]:
+                if(a >= b)return true;
+                break;
+            case cod["<"]:
+                if(a < b)return true;
+                break;
+            case cod["<="]:
+                if(a <= b)return true;
+                break;
+        
+            default:
+                break;
+        }
+
+        return false;
     }
 
     // update (dt) {}

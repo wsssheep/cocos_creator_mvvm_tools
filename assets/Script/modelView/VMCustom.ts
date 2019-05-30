@@ -5,6 +5,9 @@ const { ccclass, property, executeInEditMode, menu } = cc._decorator;
 
 /**自动检查识别的数组,你可以准备自己的组件放上去自动识别 */
 const COMP_ARRAY_CHECK= [
+    ['BhvFrameIndex','index',false],
+    ['BhvGroupToggle','index',false],
+    ['BhvRollCustom','targetValue',false],
     ['BhvRollNumber','targetValue',false],
     //组件名、默认属性、controller值
     ['cc.Label','string',false],
@@ -69,8 +72,8 @@ export default class VMCustom extends VMBase {
 
     onLoad() {
         super.onLoad();
-        this.checkEditorComponent();//编辑器检查
         //只在运行时检查组件是否缺失可用
+        this.checkEditorComponent();//编辑器检查
         if (!CC_EDITOR) {
             this._watchComponent = this.node.getComponent(this.componentName);
             this.checkComponentState();
@@ -83,7 +86,7 @@ export default class VMCustom extends VMBase {
 
     start() {
         //从 watch 的路径中获取一个初始值
-        if (CC_EDITOR) return;
+        
         this.onValueInit();
     }
 
@@ -96,7 +99,6 @@ export default class VMCustom extends VMBase {
                 const params = checkArray[i];
                 let comp = this.node.getComponent(params[0] as string);
                 if (comp) {
-
                     if (this.componentName == '') this.componentName = params[0] as string;
                     if (this.componentProperty == '') this.componentProperty = params[1] as string;
                     if (params[2] !== null) this.controller = params[2] as boolean;
@@ -140,6 +142,7 @@ export default class VMCustom extends VMBase {
 
     /**初始化获取数据 */
     onValueInit() {
+        if (CC_EDITOR) return; //编辑器模式不初始化
         //更新信息
         this.setComponentValue(this.VM.getValue(this.watchPath));
     }
@@ -157,7 +160,7 @@ export default class VMCustom extends VMBase {
     update(dt) {
         //脏检查（组件是否存在，是否被激活）
         if (CC_EDITOR == true) return;
-        if (!this.templateMode) return; //todo 模板模式下不能计算  
+        //if (this.templateMode == true) return; //todo 模板模式下不能计算  
         if (!this.controller) return;
         if (!this._canWatchComponent || this._watchComponent['enabled'] === false) return;
 

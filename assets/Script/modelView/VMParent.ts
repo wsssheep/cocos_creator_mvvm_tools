@@ -1,26 +1,29 @@
-import { VM } from './JsonOb';
+import { VM } from './ViewModel';
 import VMBase from "./VMBase";
 
 
-const { ccclass, property } = cc._decorator;
+const { ccclass, property} = cc._decorator;
 
 
 /**
  * 提供VM环境，控制旗下所有VM节点
  * 一般用于 非全局的 VM绑定,VM 环境与 组件紧密相连
  * （Prefab 模式绑定）
+ * VMParent 必须必其他组件优先执行
+ * v0.1 修复bug ，现在可以支持 Parent 嵌套 （但是注意性能问题，不要频繁嵌套）
  */
 @ccclass
 export default class VMParent extends cc.Component {
 
-    /**绑定的标签，可以自定义 */
+    /**绑定的标签，可以通过这个tag 获取 当前的 vm 实例 */
     protected tag: string = '_temp';
 
     /**需要绑定的私有数据 */
     protected data: any = {};
 
+    /**VM 管理 */
     public VM = VM;
-
+ 
 
     /**
      * [注意]不能直接覆盖此方法，如果需要覆盖。
@@ -35,45 +38,17 @@ export default class VMParent extends cc.Component {
     protected onLoad() {
         if (this.data == null) return;
 
-        let tag = this.tag + '<'+ this.node.uuid.replace('.', '') + '>';
-        VM.add(this.data, tag);
-        console.log(VM['_mvs'],tag);
-
+        this.tag = '_temp' + '<'+ this.node.uuid.replace('.', '') + '>';
+        VM.add(this.data, this.tag);
+        //cc.log(VM['_mvs'],tag)
         //搜寻所有节点：找到 watch path
-        let comps = this.node.getComponentsInChildren('VMBase');
-        console.group();
+        let comps = this.getVMComponents();
+        //console.group();
         for (let i = 0; i < comps.length; i++) {
             const comp = comps[i];
-            console.log(comp.node.name + ' > ', comp.name);
-            let path: string = comp['watchPath'];
-            let comp_name: string = comp.name;
-
-            if (comp_name.includes('VMLabel') && comp['templateMode'] == true) {
-                 let pathArr:string[] = comp['templatePathArr'];
-                 if(pathArr){
-                    for (let i = 0; i < pathArr.length; i++) {
-                        const path = pathArr[i];
-                        pathArr[i] =  path.replace('*', tag);
-                    }
-                 }
-
-            } else {
-                //VMLabel
-
-                //遇到特殊 path 就优先替换路径
-                if (path.split('.')[0] === '*') {
-                    comp['watchPath'] = path.replace('*', tag);
-
-                    console.log(comp['watchPath']);
-                }
-
-            }
-            console.log(' path>', comp.name);
-
-
-
+            this.replaceVMPath(comp,this.tag)
         }
-        console.groupEnd()
+        //console.groupEnd()
 
         this.onBind();
     }
@@ -82,6 +57,46 @@ export default class VMParent extends cc.Component {
     protected onBind() {
 
     }
+
+    private replaceVMPath(comp:cc.Component,tag:string){
+        let path: string = comp['watchPath'];
+        //let comp_name: string = comp.name;
+
+        if (comp['templateMode'] == true) {
+             let pathArr:string[] = comp['watchPathArr'];
+             if(pathArr){
+                for (let i = 0; i < pathArr.length; i++) {
+                    const path = pathArr[i];
+                    pathArr[i] =  path.replace('*', tag);
+                }
+             }
+
+        } else {
+            //VMLabel
+
+            //遇到特殊 path 就优先替换路径
+            if (path.split('.')[0] === '*') {
+                comp['watchPath'] = path.replace('*', tag);
+            }
+
+        }
+    }
+
+    /**未优化的遍历节点，获取VM 组件 */
+    private getVMComponents(){
+        let comps = this.node.getComponentsInChildren('VMBase');
+        let parents = this.node.getComponentsInChildren('VMParent').filter(v => v.uuid !== this.uuid); //过滤掉自己
+
+        //过滤掉不能赋值的parent
+        let filters = [];
+        parents.forEach((node:cc.Node)=>{
+            filters = filters.concat(node.getComponentsInChildren('VMBase'));
+        })
+
+        comps = comps.filter((v)=>filters.indexOf(v)<0);
+        return comps;
+    }
+
 
     /**
      * [注意]不能覆盖此方法，如果需要覆盖。
@@ -94,8 +109,7 @@ export default class VMParent extends cc.Component {
      */
     protected onDestroy() {
         //解除全部引用
-        let tag = this.tag + '<' + this.node.uuid.replace('.', '') + '>';
-        VM.remove(tag);
+        VM.remove(this.tag);
         this.data = null;
     }
 

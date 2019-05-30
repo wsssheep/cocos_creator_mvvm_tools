@@ -25,6 +25,7 @@ class StringFormat {
                 case 'fix': res = this.fix(value, num); break;
                 case 'kmbt': res = this.KMBT(value); break;
                 case 'per': res = this.per(value, num); break;
+                case 'sep': res = this.sep(value); break;
 
                 default:
                     break;
@@ -43,6 +44,12 @@ class StringFormat {
         return res as string;
 
 
+    }
+
+    //将数字按分号显示
+    private sep(value: number){
+        let num = Math.round(value).toString();
+        return num.replace(new RegExp('(\\d)(?=(\\d{3})+$)', 'ig'), "$1,");
     }
 
     //将数字按分显示 00:00 显示 （ms制）
@@ -89,13 +96,13 @@ class StringFormat {
     private KMBT(value: number, lang: string = 'en') {
         //10^4=万, 10^8=亿,10^12=兆,10^16=京，
         let counts = [1000, 1000000, 1000000000, 1000000000000];
-        let units = ['K', 'M', 'B', 'T'];
+        let units = ['','K', 'M', 'B', 'T'];
 
         switch (lang) {
             case 'zh':
                 //10^4=万, 10^8=亿,10^12=兆,10^16=京，
                 let counts = [10000, 100000000, 1000000000000, 10000000000000000];
-                let units = ['万', '亿', '兆', '京'];
+                let units = ['','万', '亿', '兆', '京'];
                 break;
 
             default:
@@ -118,7 +125,7 @@ class StringFormat {
                 if (index > 0) {
                     res = (value / counts[index - 1]).toFixed(fixNum);
                 } else {
-                    res = value.toFixed(fixNum);
+                    res = value.toFixed(0);
                 }
                 break;
             }

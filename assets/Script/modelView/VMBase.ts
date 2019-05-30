@@ -1,4 +1,5 @@
-import { VM } from './JsonOb';
+import { VM } from './ViewModel';
+
 
 //用来处理通知数据的层级
 //控制旗下子节点的数据
@@ -81,11 +82,11 @@ export default class VMBase extends cc.Component {
 
         //打印出所有绑定的路径，方便调试信息
         if(DEBUG_WATCH_PATH && CC_DEBUG){
-            console.log('所有路径',this.watchPath?[this.watchPath]:this.watchPathArr,'<<',this.node.getParent().name +'.'+ this.node.name)
+            cc.log('所有路径',this.watchPath?[this.watchPath]:this.watchPathArr,'<<',this.node.getParent().name +'.'+ this.node.name)
         }
 
         if(this.watchPath == '' && this.watchPathArr.join('')==''){
-            console.log('可能未设置路径的节点:',this.node.getParent().name +'.'+ this.node.name);
+            cc.log('可能未设置路径的节点:',this.node.getParent().name +'.'+ this.node.name);
 
         }
 
@@ -93,6 +94,7 @@ export default class VMBase extends cc.Component {
     }
 
     onEnable(){
+        if (CC_EDITOR) return;//编辑器模式不能判断
         if(this.templateMode){
             this.setMultPathEvent(true);
         }else if(this.watchPath != ''){
@@ -103,6 +105,7 @@ export default class VMBase extends cc.Component {
     }
 
     onDisable(){
+        if (CC_EDITOR) return;//编辑器模式不能判断
         if(this.templateMode){
             this.setMultPathEvent(false);
         }else if(this.watchPath != ''){
@@ -111,7 +114,7 @@ export default class VMBase extends cc.Component {
     }
 
     //多路径监听方式
-    setMultPathEvent(enabled:boolean = true){
+    private setMultPathEvent(enabled:boolean = true){
         if(CC_EDITOR)return;
         let arr = this.watchPathArr;
         for (let i = 0; i < arr.length; i++) {
@@ -125,12 +128,12 @@ export default class VMBase extends cc.Component {
 
     }
 
-    onValueInit(){
+    protected onValueInit(){
         //虚方法
     
     }
 
-    onValueChanged(n,o,pathArr:string[]){
+    protected onValueChanged(n,o,pathArr:string[]){
 
     }
 

@@ -1,30 +1,43 @@
-// Learn TypeScript:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
+import { ConfigItemStorage } from './../../userData/StorageModel';
+import VMParent from "../../modelView/VMParent";
+import CellShopItem from "../Cell/CellShopItem";
+
+
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends cc.Component {
+export default class VMItemShop extends cc.Component {
 
-    @property(cc.Label)
-    label: cc.Label = null;
+    // LIFE-CYCLE CALLBACKS:
+    @property(cc.Node)
+    gridContent:cc.Node = null;
 
-    @property
-    text: string = 'hello';
+    @property(cc.Prefab)
+    prefabCell:cc.Node = null;
+
+ 
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {}
+    onLoad () {
+        this.updateCell(this.createShopList());
+    }
 
-    start () {
+    createShopList(){
+        return [1,2,3,4,5,6,7,8,9,10,11,12,1,2];
+    }
 
+    updateCell(arr:any[]){
+        this.gridContent.removeAllChildren(true);
+        arr.forEach((v)=>{
+            let itemId = v;
+            let item = ConfigItemStorage.find(v=>v.id === itemId);
+            if(item==null)return;
+            let p = cc.instantiate(this.prefabCell);
+            this.gridContent.addChild(p);
+            p.getComponent(CellShopItem).init(item.id,item.price,item.pic,item.rank,item.type);
+        })
     }
 
     // update (dt) {}

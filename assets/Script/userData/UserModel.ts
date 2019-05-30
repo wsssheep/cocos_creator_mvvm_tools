@@ -34,6 +34,7 @@ class PlayData {
     level:number = 0;
     exp:number = 15255;//exp
     exp_max:number = 100000;//升级目标exp
+    gold:number = 10000;
 
     hp:number = 450;
     mhp:number = 1500;
@@ -51,7 +52,7 @@ class PlayData {
     skill_point:number = 15;//技能点
     prop_point:number = 10; //属性点
 
-    equips = [3,3,2,0,0,1,-1] //对应8个装备孔的id编号（会自动索引到需要的数据库）
+    equips = [3,3,12,0,0,1,-1] //对应8个装备孔的id编号（会自动索引到需要的数据库）
 }
 
 /**
@@ -59,7 +60,7 @@ class PlayData {
  */
 class HomeUiInfo {
     bag = {
-        sort:3,
+        sort:0,
         type:'all',
     }
     skill = {
@@ -82,6 +83,7 @@ export let homeUI:HomeUiInfo = new HomeUiInfo();
 VM.add(global, 'game');    //定义全局tag
 VM.add(homeUI, 'ui');           //定义全局tag
 VM.add(player,'player');
+
 
 //使用注意事项
 //VM 得到的回调 onValueChanged ，不能强制修改赋值

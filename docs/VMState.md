@@ -8,6 +8,7 @@ VM组件 状态条件，根据watchPath 路径，判断值是不是符合条件�
 
 - `Watch Path ` - 绑定数值监听路径
 - `Foreach Child Mode` - 特殊的比较值的方式，它会拿当前节点下的所有子节点的名字作为值的比较，来控制所有子节点的显示状态。
+- `Foreach Child Type` - `NODE_INDEX` 比较节点的index 值 或者 `NODE_NAME` 比较节点的名字
 - `Condition` - 判断条件，判断值的的大小是否符合条件
 - `Value Action`-  效果行为，当状态满足时候执行的条件
 - `Watch Nodes` - 需要变化状态的节点,如果不设置，默认就会改变本节点以及子节点的所有状态。

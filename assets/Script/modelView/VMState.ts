@@ -25,6 +25,12 @@ enum ACTION {
 }
 
 
+enum CHILD_MODE_TYPE {
+    NODE_INDEX,
+    NODE_NAME
+}
+
+
 /**
  * [VM-State]
  * 监听数值状态,根据数值条件设置节点是否激活
@@ -37,7 +43,7 @@ export default class VMState extends VMBase {
     watchPath:string = "";
 
     @property({
-        tooltip:'遍历子节点,根据子节点的名字转换为值，判断值满足条件 来激活'
+        tooltip:'遍历子节点,根据子节点的名字或名字转换为值，判断值满足条件 来激活'
     })
     foreachChildMode:boolean = false;
 
@@ -45,6 +51,13 @@ export default class VMState extends VMBase {
         type:cc.Enum(CONDITION),
     })
     condition:CONDITION = CONDITION["=="];
+
+    @property({
+        type:cc.Enum(CHILD_MODE_TYPE),
+        tooltip:'遍历子节点,根据子节点的名字转换为值，判断值满足条件 来激活',
+        visible:function(){return this.foreachChildMode === true}
+    })
+    foreachChildType:CHILD_MODE_TYPE = CHILD_MODE_TYPE.NODE_INDEX;
     
     @property({
         displayName:'Value: a',
@@ -145,9 +158,10 @@ export default class VMState extends VMBase {
     //检查节点值更新
     private checkNodeFromValue(value){
         if(this.foreachChildMode){
-            this.watchNodes.forEach(node=>{
-                let check =  this.conditionCheck(value,node.name);
-                // cc.log('遍历模式',value,node.name,check);
+            this.watchNodes.forEach((node,index)=>{
+                let v  = (this.foreachChildType === CHILD_MODE_TYPE.NODE_INDEX)?index:node.name;
+                let check =  this.conditionCheck(value,v);
+                 //cc.log('遍历模式',value,node.name,check);
                 this.setNodeState(node,check);
             })
         }else{

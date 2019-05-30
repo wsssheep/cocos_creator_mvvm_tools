@@ -85,7 +85,6 @@ export default class VMCustom extends VMBase {
 
     start() {
         //从 watch 的路径中获取一个初始值
-        
         this.onValueInit();
     }
 

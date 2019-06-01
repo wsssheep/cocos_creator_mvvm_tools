@@ -11,7 +11,11 @@ VM是 VMManager 的实例, 用于管理所有的 ViewModel 实例。ViewModel实
 我们可以通过 import  VM（VMManager） 对象 来管理 所有的 ViewModel ，**不建议**直接去使用 ViewModel 实例。
 
 ```typescript
+//TS 使用 import 引入
 import { VM } from './ViewModel';
+
+//JS 可以使用 require 的方式引入,其他用法没有区别
+const { VM } = require('./ViewModel'); 
 ```
 
 - `add` - 创建并且添加一个 ViewModel 对象

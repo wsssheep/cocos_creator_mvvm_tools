@@ -70,9 +70,13 @@ export default class VMLabel extends VMBase {
                 this.originText = this.getLabelValue();
                 this.parseTemplate();
             }
-            this.onValueInit();
         }
 
+    }
+
+    start(){
+        if (!CC_EDITOR) return;
+        this.onValueInit();
     }
 
 

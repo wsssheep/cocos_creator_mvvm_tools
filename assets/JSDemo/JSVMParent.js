@@ -5,7 +5,6 @@ const {VM} = require('./../Script/modelView/ViewModel');
 //JS调用用例
 cc.Class({
     extends: VMParent.default,
-
     ctor:function(){
         //data 数据在这里定义
         this.data = {
@@ -15,8 +14,7 @@ cc.Class({
     },
 
     properties: {
-
-
+        
     },
 
     onBind(){

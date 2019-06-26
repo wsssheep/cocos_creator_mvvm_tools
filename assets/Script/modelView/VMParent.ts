@@ -37,7 +37,6 @@ export default class VMParent extends cc.Component {
      */
     protected onLoad() {
         if (this.data == null) return;
-
         this.tag = '_temp' + '<'+ this.node.uuid.replace('.', '') + '>';
         VM.add(this.data, this.tag);
         //cc.log(VM['_mvs'],tag)

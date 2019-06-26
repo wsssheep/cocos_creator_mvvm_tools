@@ -136,11 +136,13 @@ export default class VMState extends VMBase {
             this.watchNodes = this.watchNodes.concat(this.node.children);
         }
    
-        if(this.enabled)this.onValueInit();
+        
     }
 
     start () {
-        
+        if(this.enabled){
+            this.onValueInit();
+        }
     }
 
     //当值初始化时

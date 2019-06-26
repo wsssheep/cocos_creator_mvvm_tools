@@ -1,4 +1,9 @@
 # cocos_creator_mvvm_tools 0.1.0
+
+### 版本说明
+v0.1.0 - Typescript 的 稳定版本
+v0.1.1 - 修复VMParent onLoad顺序的错误
+
 ### 简介
 
 适用于cocos creator 的 mvvm 的工具 集，摆脱传统MVC设置节点属性来控制 UI 的方式。你可以更快捷、更细致地处理UI的表现效果。不写一行代码完成复杂的显示逻辑。设计这个框架的目地就是为了解决 数据和节点状态变化切换的麻烦关系。

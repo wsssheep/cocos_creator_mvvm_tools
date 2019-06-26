@@ -51,8 +51,9 @@ export default class VMProgress extends VMCustom {
     }
 
     start () {
-        if (CC_EDITOR) return;
-        this.onValueInit();
+        if (!CC_EDITOR){
+            this.onValueInit();
+        }
     }
 
     onValueInit() {

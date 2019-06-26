@@ -1,7 +1,7 @@
 import VMBase from './VMBase';
 
 
-const {ccclass, property,menu} = cc._decorator;
+const {ccclass, property,menu,help} = cc._decorator;
 
 /**限制值边界范围的模式 */
 enum CLAMP_MODE {
@@ -17,6 +17,7 @@ enum CLAMP_MODE {
  */
 @ccclass
 @menu('ModelViewer/VM-Modify(修改Model)')
+@help('https://github.com/wsssheep/cocos_creator_mvvm_tools/blob/master/docs/VMModify.md')
 export default class VMModify extends VMBase {
 
     @property

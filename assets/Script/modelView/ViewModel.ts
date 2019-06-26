@@ -3,6 +3,7 @@ import { JsonOb } from './JsonOb';
 const VM_EMIT_HEAD = 'VC:';
 const DEBUG_SHOW_PATH = false;
 
+
 //通过 .  路径 设置值
 function setValueFromPath(obj:any,path: string, value: any, tag:string = '') {
     let props = path.split('.');
@@ -231,4 +232,8 @@ class VMManager {
 
 //   整数、小数、时间、缩写
 
+/**
+ * VM管理对象,使用文档: 
+ *  https://github.com/wsssheep/cocos_creator_mvvm_tools/blob/master/docs/ViewModelScript.md
+ */
 export let VM = new VMManager();

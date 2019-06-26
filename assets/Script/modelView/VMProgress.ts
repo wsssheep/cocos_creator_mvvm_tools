@@ -2,21 +2,13 @@ import VMBase from "./VMBase";
 import VMCustom from "./VMCustom";
 import { StringFormatFunction } from "./StringFormat";
 
-// Learn TypeScript:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/typescript.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/typescript.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/manual/en/scripting/life-cycle-callbacks.html
 
-const {ccclass, property,menu} = cc._decorator;
+const {ccclass, property,menu,help} = cc._decorator;
 
 
 @ccclass
 @menu('ModelViewer/VM-Progress (VM-进度条)')
+@help('https://github.com/wsssheep/cocos_creator_mvvm_tools/blob/master/docs/VMProgress.md')
 export default class VMProgress extends VMCustom {
 
     @property({

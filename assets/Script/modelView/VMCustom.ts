@@ -1,6 +1,6 @@
 import VMBase from './VMBase';
 
-const { ccclass, property, executeInEditMode, menu } = cc._decorator;
+const { ccclass, property, executeInEditMode, menu,help} = cc._decorator;
 
 
 /**自动检查识别的数组,你可以准备自己的组件放上去自动识别 */
@@ -25,6 +25,7 @@ const COMP_ARRAY_CHECK= [
 @ccclass
 @executeInEditMode
 @menu('ModelViewer/VM-Custom (自定义VM)')
+@help('https://github.com/wsssheep/cocos_creator_mvvm_tools/blob/master/docs/VMCustom.md')
 export default class VMCustom extends VMBase {
 
     @property({

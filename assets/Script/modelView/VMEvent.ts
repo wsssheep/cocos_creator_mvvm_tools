@@ -11,7 +11,7 @@ import VMBase from './VMBase';
 
 // 比较条件:,如果传入值 > /< />= /<= /== 某值时，执行的action类型
 
-const {ccclass, property,executeInEditMode,menu} = cc._decorator;
+const {ccclass, property,executeInEditMode,menu,help} = cc._decorator;
 
 // enum WatchMode {
 //     ccLabel,
@@ -38,6 +38,7 @@ enum FILTER_MODE {
 @ccclass
 @executeInEditMode
 @menu('ModelViewer/VM-EventCall(调用函数)')
+@help('https://github.com/wsssheep/cocos_creator_mvvm_tools/blob/master/docs/VMEvent.md')
 export default class VMEvent extends VMBase {
     
     @property({

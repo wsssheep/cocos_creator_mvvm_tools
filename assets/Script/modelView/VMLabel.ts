@@ -1,7 +1,7 @@
 import VMBase from './VMBase';
 import { StringFormatFunction } from './StringFormat';
 
-const { ccclass, property, menu, executeInEditMode } = cc._decorator;
+const { ccclass, property, menu, executeInEditMode,help } = cc._decorator;
 
 const LABEL_TYPE = {
     CC_LABEL: 'cc.Label',
@@ -19,6 +19,7 @@ const LABEL_TYPE = {
 @ccclass
 @executeInEditMode
 @menu('ModelViewer/VM-Label(文本VM)')
+@help('https://github.com/wsssheep/cocos_creator_mvvm_tools/blob/master/docs/VMLabel.md')
 export default class VMLabel extends VMBase {
 
     @property({

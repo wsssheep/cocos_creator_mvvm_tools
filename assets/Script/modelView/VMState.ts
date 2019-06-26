@@ -2,7 +2,7 @@
 import { VM } from './ViewModel';
 import VMBase from './VMBase';
 
-const {ccclass, property,menu} = cc._decorator;
+const {ccclass, property,menu,help} = cc._decorator;
 
 /**比较条件 */
 enum CONDITION{
@@ -37,6 +37,7 @@ enum CHILD_MODE_TYPE {
  */
 @ccclass
 @menu('ModelViewer/VM-State (VM状态控制)')
+@help('https://github.com/wsssheep/cocos_creator_mvvm_tools/blob/master/docs/VMState.md')
 export default class VMState extends VMBase {
 
     @property

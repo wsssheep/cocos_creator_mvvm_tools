@@ -1,6 +1,6 @@
 
 
-const { ccclass, property, executeInEditMode, menu } = cc._decorator;
+const { ccclass, property, executeInEditMode, menu,help } = cc._decorator;
 
 enum ACTION_MODE {
     SEARCH_COMPONENT,
@@ -17,6 +17,7 @@ enum ACTION_MODE {
 @ccclass
 @executeInEditMode
 @menu('ModelViewer/Edit-Comps (快速组件操作)')
+@help('https://github.com/wsssheep/cocos_creator_mvvm_tools/blob/master/docs/VMCompsEdit.md')
 export default class MVCompsEdit extends cc.Component {
 
 

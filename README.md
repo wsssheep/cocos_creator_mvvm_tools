@@ -1,8 +1,8 @@
-# cocos_creator_mvvm_tools 0.1.0
+# cocos_creator_mvvm_tools 0.1.1
 
 ### 版本说明
 v0.1.0 - Typescript 的 稳定版本
-v0.1.1 - 修复VMParent onLoad顺序的错误
+v0.1.1 - 修复VMParent onLoad顺序的错误,调整部分组件初始化值的时间
 
 ### 简介
 

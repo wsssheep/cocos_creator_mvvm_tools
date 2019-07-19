@@ -80,22 +80,6 @@ export default class VMLabel extends VMBase {
         this.onValueInit();
     }
 
-
-    // //多路径监听方式
-    // protected setMultPathEvent(enabled: boolean = true) {
-    //     if (CC_EDITOR) return;
-    //     let arr = this.watchPathArr;
-    //     for (let i = 0; i < arr.length; i++) {
-    //         const path = arr[i];
-    //         if (enabled) {
-    //             this.VM.bindPath(path, this.onValueChanged, this);
-    //         } else {
-    //             this.VM.unbindPath(path, this.onValueChanged, this);
-    //         }
-    //     }
-
-    // }
-
     //解析模板 获取初始格式化字符串格式 的信息
     parseTemplate() {
         let regexAll = /\{\{(.+?)\}\}/g; //匹配： 所有的{{value}}
@@ -119,6 +103,7 @@ export default class VMLabel extends VMBase {
 
     /**获取解析字符串模板后得到的值 */
     getReplaceText() {
+        if(!this.originText)return "";
         let regexAll = /\{\{(.+?)\}\}/g; //匹配： 所有的{{value}}
         let regex = /\{\{(.+?)\}\}/;//匹配： {{value}} 中的 value
         let res = this.originText.match(regexAll);//匹配结果数组 [{{value}}，{{value}}，{{value}}]

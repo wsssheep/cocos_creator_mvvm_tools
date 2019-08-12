@@ -22,7 +22,7 @@ enum PARAM_TYPE {
  * 将该组件的所处节点的 所有子节点，绑定相同的回调对象 
  */
 @ccclass
-@menu("添加特殊行为/UI/Button Group(一组按钮控制)")
+@menu("添加特殊行为/Input/Button Group(一组按钮控制)")
 export default class BhvButtonGroup extends cc.Component {
 
     @property({
@@ -88,7 +88,9 @@ export default class BhvButtonGroup extends cc.Component {
         
         this.node.children.forEach((node,nodeIndex) => {
             let comp = node.getComponent(cc.Button);
-            if(comp == null)comp = node.addComponent(cc.Button);
+            if(!comp){
+                comp = node.addComponent(cc.Button);
+            }
 
             //同步属性
 
@@ -111,9 +113,11 @@ export default class BhvButtonGroup extends cc.Component {
             this.touchEvents.forEach((event) => {
                 //克隆数据，每个节点获取的都是不同的回调
                 let hd = new cc.Component.EventHandler();//copy对象
-                hd.component = event.component;
-                hd.handler = event.handler;
                 hd.target = event.target;
+                hd.handler = event.handler;
+                hd.component = event.component;
+                hd['_componentId'] = event['_componentId'];
+                
                 if(this.paramType === PARAM_TYPE.CHILDREN_INDEX){
                     hd.customEventData = nodeIndex.toString();
                 }else{

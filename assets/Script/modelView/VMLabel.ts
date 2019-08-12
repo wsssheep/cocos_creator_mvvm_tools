@@ -76,7 +76,7 @@ export default class VMLabel extends VMBase {
     }
 
     start(){
-        if (!CC_EDITOR) return;
+        if (CC_EDITOR) return;
         this.onValueInit();
     }
 

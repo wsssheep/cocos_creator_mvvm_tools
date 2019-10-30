@@ -10,7 +10,7 @@ class StringFormat {
         if (format === '') return value as string;
         format = format.toLowerCase().trim();//不区分大小
         let match_func = format.match(/^[a-z|A-Z]+/gi);//匹配到 format 中的 函数名
-        let match_num = format.match(/\d+$/gi);   //匹配到 format 中的参数
+        let match_num = format.match(/[^\(\)]+(?=\))/g);   //匹配到 format 中的参数
         let func: string = '';
         let num: number;
         let res: number | string = '';
@@ -44,8 +44,9 @@ class StringFormat {
 
 
     }
-    /** 根据位数补齐0， (1,4) 会返回 00001  (100,4) 00100,如果没有传位数，则默认填充6位*/
+    /** 根据位数补齐0， (1,4) 会返回 0001  (100,4) 0100,如果没有传位数，则默认填充至6位*/
     private fill(value: number, num: number) {
+        console.log('-=-'+num)
         let plusOrMinus = '';
         //负数情况
         if(value < 0 ){
@@ -54,7 +55,7 @@ class StringFormat {
         }
         let r = ''
         let d = (value + '').length
-        let t = typeof num === 'undefined' ? 6 : (num+ '').length
+        let t = typeof num === 'undefined' ? 6 : num
         if(d < t){
             for(var i = 0;i< t-d;i++){
                r +='0'

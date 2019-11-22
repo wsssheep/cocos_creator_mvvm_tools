@@ -9,7 +9,7 @@ const types = {
     obj: '[object Object]',
     array: '[object Array]'
 }
-const OAM = ['push', 'pop', 'shift', 'unshift', 'short', 'reverse', 'splice'];
+const OAM = ['push', 'pop', 'shift', 'unshift', 'sort', 'reverse', 'splice'];
 
 
 

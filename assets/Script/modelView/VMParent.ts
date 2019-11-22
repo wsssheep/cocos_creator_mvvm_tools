@@ -2,7 +2,7 @@ import { VM } from './ViewModel';
 import VMBase from "./VMBase";
 
 
-const { ccclass, property,help} = cc._decorator;
+const { ccclass, property,help,executionOrder} = cc._decorator;
 
 
 /**
@@ -13,6 +13,7 @@ const { ccclass, property,help} = cc._decorator;
  * v0.1 修复bug ，现在可以支持 Parent 嵌套 （但是注意性能问题，不要频繁嵌套）
  */
 @ccclass
+@executionOrder(-1)
 @help('https://github.com/wsssheep/cocos_creator_mvvm_tools/blob/master/docs/VMParent.md')
 export default class VMParent extends cc.Component {
 

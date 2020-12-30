@@ -8,10 +8,9 @@ class StringFormat {
 
     deal(value: number | string, format: string): string {
         if (format === '') return value as string;
-
         format = format.toLowerCase().trim();//不区分大小
         let match_func = format.match(/^[a-z|A-Z]+/gi);//匹配到 format 中的 函数名
-        let match_num = format.match(/\d+$/gi);   //匹配到 format 中的参数
+        let match_num = format.match(/[^\(\)]+(?=\))/g);   //匹配到 format 中的参数
         let func: string = '';
         let num: number;
         let res: number | string = '';
@@ -26,7 +25,7 @@ class StringFormat {
                 case 'kmbt': res = this.KMBT(value); break;
                 case 'per': res = this.per(value, num); break;
                 case 'sep': res = this.sep(value); break;
-
+                case 'fill': res = this.fill(value,num); break;
                 default:
                     break;
             }
@@ -45,7 +44,27 @@ class StringFormat {
 
 
     }
-
+    /** 根据位数补齐0， (1,4) 会返回 0001  (100,4) 0100,如果没有传位数，则默认填充至6位*/
+    private fill(value: number, num: number) {
+        console.log('-=-'+num)
+        let plusOrMinus = '';
+        //负数情况
+        if(value < 0 ){
+          plusOrMinus = '-';
+          value = value*-1
+        }
+        let r = ''
+        let d = (value + '').length
+        let t = typeof num === 'undefined' ? 6 : num
+        if(d < t){
+            for(var i = 0;i< t-d;i++){
+               r +='0'
+            }
+           return  plusOrMinus+(r+value)
+        }else{
+           return  value
+        }
+    }
     //将数字按分号显示
     private sep(value: number){
         let num = Math.round(value).toString();
